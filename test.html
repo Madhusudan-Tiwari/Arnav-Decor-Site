@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smooth Peel Scroll</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: black;
+  }
+
+  .section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    transition: transform 0.8s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    font-weight: bold;
+    color: white;
+  }
+
+  .section:nth-child(1) { background: #ff3b30; z-index: 6; }
+  .section:nth-child(2) { background: #ff9500; z-index: 5; }
+  .section:nth-child(3) { background: #ffcc00; color: black; z-index: 4; }
+  .section:nth-child(4) { background: #34c759; z-index: 3; }
+  .section:nth-child(5) { background: #007aff; z-index: 2; }
+  .section:nth-child(6) { background: #5856d6; z-index: 1; }
+</style>
+</head>
+<body>
+
+  <div class="section">Section 1</div>
+  <div class="section">Section 2</div>
+  <div class="section">Section 3</div>
+  <div class="section">Section 4</div>
+  <div class="section">Section 5</div>
+  <div class="section">Section 6</div>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const total = sections.length;
+  let current = 0;
+  let isAnimating = false;
+  let scrollTimeout;
+
+  const updateSections = () => {
+    sections.forEach((sec, i) => {
+      sec.style.transform = i < current ? 'translateY(-100%)' : 'translateY(0)';
+    });
+  };
+
+  const scrollPage = (dir) => {
+    if (isAnimating) return;
+
+    isAnimating = true;
+    if (dir === 'down' && current < total - 1) current++;
+    else if (dir === 'up' && current > 0) current--;
+
+    updateSections();
+
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      isAnimating = false;
+    }, 900); // slightly longer than CSS transition
+  };
+
+  let scrollDelta = 0;
+  let scrollLocked = false;
+
+  window.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    if (scrollLocked) return;
+
+    scrollDelta += e.deltaY;
+
+    if (scrollDelta > 40) {
+      scrollPage('down');
+      scrollDelta = 0;
+      scrollLocked = true;
+      setTimeout(() => scrollLocked = false, 950);
+    } else if (scrollDelta < -40) {
+      scrollPage('up');
+      scrollDelta = 0;
+      scrollLocked = true;
+      setTimeout(() => scrollLocked = false, 950);
+    }
+  }, { passive: false });
+
+  // mobile swipe support
+  let startY = 0;
+  window.addEventListener('touchstart', e => startY = e.touches[0].clientY);
+  window.addEventListener('touchend', e => {
+    const endY = e.changedTouches[0].clientY;
+    const diff = startY - endY;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) scrollPage('down');
+      else scrollPage('up');
+    }
+  });
+
+  updateSections();
+</script>
+
+</body>
+</html>

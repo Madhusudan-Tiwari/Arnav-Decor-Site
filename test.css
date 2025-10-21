@@ -1,0 +1,41 @@
+.dropdown-container {
+  position: relative; /* Essential for positioning the dropdown content */
+  display: inline-block; /* Aligns with text flow */
+}
+
+/* Hide the actual checkbox from view */
+.dropdown-toggle {
+  position: absolute;
+  clip: rect(0 0 0 0); /* A modern, accessible way to hide it visually */
+}
+
+.dropdown-label {
+  cursor: pointer; /* Changes the cursor to indicate it's clickable */
+}
+
+.dropdown-content {
+  display: none; /* Hidden by default */
+  position: absolute;
+  left: 0;
+  top: 100%;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1; /* Ensures it appears over other content */
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* The magic selector: when the checkbox is checked, show the content */
+.dropdown-toggle:checked ~ .dropdown-content {
+  display: block;
+}

@@ -1,0 +1,686 @@
+/* ==================================== */
+/* 0. UTILITY CLASSES */
+/* ==================================== */
+.cart-black
+{
+    filter: invert(0%) !important;
+}
+
+.highlight-yellow
+{
+    color: #ffd700;
+}
+
+/* ==================================== */
+/* 1. RESET AND BASE SETUP */
+/* ==================================== */
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+}
+
+html,
+body
+{
+    height: 100%;
+    background: black;
+}
+
+/* ==================================== */
+/* 2. HEADER AND NAVIGATION */
+/* ==================================== */
+header
+{
+    display: flex;
+    align-items: center;
+    position: fixed;
+    z-index: 10;
+}
+
+#Logo
+{
+    height: 100px;
+    margin-top: 20px;
+    margin-left: 10vw;
+}
+
+#Cart
+{
+    margin-left: 10vw;
+    margin-right: 3vw;
+    filter: invert(100%);
+}
+
+#Social
+{
+    display: flex;
+}
+
+#NavigationBar
+{
+    margin-left: 14%;
+}
+
+#NavigationBar ul
+{
+    display: flex;
+    gap: 40px;
+    font-size: 20px;
+    text-shadow: 0 0 5px black;
+}
+
+#NavigationBar ul li
+{
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+}
+
+#NavigationBar ul li a
+{
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+    font-weight: 600;
+    display: inline-block;
+    padding: 5px 0;
+}
+
+#NavigationBar ul li:hover > a
+{
+    color: #ffd700;
+    text-shadow: 0 0 10px #000;
+}
+
+.dropdown
+{
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.dropdown > a
+{
+    pointer-events: auto;
+}
+
+.dropdown-content
+{
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    background: rgba(0, 0, 0, 0.95);
+    border-radius: 6px;
+    padding: 20px 0;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(8px);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    pointer-events: none;
+}
+
+.dropdown-content li
+{
+    padding: 0px 20px;
+    white-space: nowrap;
+}
+
+.dropdown-content li a
+{
+    display: block;
+    padding: 8px 20px;
+    line-height: 0.9;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+    white-space: normal;
+    word-break: break-word;
+    box-sizing: border-box;
+}
+
+.dropdown-content li a:hover
+{
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.dropdown:hover .dropdown-content
+{
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.dropdown-subcontent
+{
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    padding: 5px 0;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+    z-index: 10;
+    min-width: 200px;
+    padding: 18px 20px;
+    border-radius: 6px;
+}
+
+.dropdown-sub:hover .dropdown-subcontent
+{
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+/* ==================================== */
+/* 3. GENERAL SECTION STYLES */
+/* ==================================== */
+.section
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    transition: transform 0.6s ease;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    background-position: center;
+    z-index: 1;
+    will-change: transform;
+    background-size:cover;
+}
+
+.section .content
+{
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 100%;
+    padding: 2rem;
+    font-size: 1.5rem;
+    color: white;
+    padding-top: calc(2rem + 100px);
+}
+
+#section1
+{
+    background-size: cover;
+}
+
+#Tagline
+{
+    font-size: 6rem;
+    color: white;
+    text-shadow: 0 0 5px black;
+    min-height: 120vh;
+    align-content: center;
+    margin-left: 10vw;
+}
+
+#Feel
+{
+    display: flex;
+    gap: 20px;
+}
+
+#the
+{
+    color: #f2af53;
+}
+
+/* ==================================== */
+/* 4. SECTION 2: PRODUCTS */
+/* ==================================== */
+.products-section
+{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    color: white;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.section-title
+{
+    font-size: 3.5rem;
+    color: white;
+    margin-bottom: 3rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.product-categories
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem 5rem;
+}
+
+.product-category h3
+{
+    font-size: 1.8rem;
+    color: white;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+.product-category p
+{
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #cccccc;
+    margin-bottom: 1rem;
+}
+
+.learn-more
+{
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.learn-more:hover
+{
+    color: #fff;
+}
+
+/* ==================================== */
+/* 5. SECTION 3: BESPOKE SOLUTIONS */
+/* ==================================== */
+#section3
+{
+    height: 100vh;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+}
+
+#section3::before
+{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+#section3 .content
+{
+    width: 100%;
+    padding: 0 50px;
+    position: relative;
+    z-index: 5;
+}
+
+#section3 .text-container
+{
+    text-align: left;
+    margin-left: 10vw;
+    max-width: 500px;
+    margin-right: 3vw;
+}
+
+#section3 .sub-heading
+{
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    text-shadow: 0 0 4px #2a2929;
+}
+
+#section3 .main-heading
+{
+    font-size: 5rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 15px 0;
+    text-shadow: 0 0 8px #2a2929;
+}
+
+#section3 .body-text
+{
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: black;
+    margin-bottom: 30px;
+    max-width: 450px;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
+}
+
+#section3 .btn-info
+{
+    background-color: #1a427f;
+    color: #fff;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+#section3 .btn-info:hover
+{
+    background-color: #2b579c;
+}
+
+#Solutions
+{
+    min-height: 115vh;
+    align-content: center;
+}
+
+/* ==================================== */
+/* 6. SECTION 4: TESTIMONIALS */
+/* ==================================== */
+
+.testimonial-section-container
+{
+    width: 85%;
+    margin-left: 10vw;
+    padding-right: 3vw;
+    padding-bottom: 2rem;
+}
+
+.section-title-testimonial
+{
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 3rem;
+    text-align: left;
+    font-family: sans-serif;
+}
+
+.testimonials-grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.testimonial-card
+{
+    background-color: #1c1c1c;
+    padding: 20px;
+    position: relative;
+    border-radius: 8px;
+    border-left: 5px solid #f2af53;
+    border-bottom: 5px solid #f2af53;
+}
+
+.card-header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.avatar-placeholder
+{
+    width: 80px;
+    height: 80px;
+    background-color: #4a4a4a;
+    border-radius: 50%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50%;
+    position: absolute;
+    top: -40px;
+    left: 20px;
+}
+
+.quote-icon
+{
+    font-size: 4rem;
+    color: #f2af53;
+    font-weight: 900;
+    line-height: 1;
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    opacity: 0.8;
+}
+
+.card-body
+{
+    padding-top: 50px;
+}
+
+.client-name
+{
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.client-title
+{
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #f2af53;
+    margin-bottom: 20px;
+}
+
+.testimonial-text-placeholder
+{
+    height: 150px;
+    background-color: #2b2b2b;
+    border-radius: 4px;
+}
+
+/* ==================================== */
+/* 7. SECTION 5: LEGACY / VIDEO */
+/* ==================================== */
+
+.legacy-section-container
+{
+    width: 85%;
+    margin-left: 10vw;
+    padding-right: 3vw;
+    padding-bottom: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+    min-height: calc(100vh - 100px);
+}
+
+.legacy-content
+{
+    max-width: 550px;
+}
+
+.legacy-title
+{
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: white;
+    margin-bottom: 25px;
+    text-align: left;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+
+.legacy-body-text
+{
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: #cccccc;
+    text-align: left;
+}
+
+.legacy-video-placeholder
+{
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    background-color: #2b2b2b;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.video-overlay
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: flex-end;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.video-duration
+{
+    color: white;
+    font-size: 0.9rem;
+    margin: 0 0 5px 5px;
+    text-shadow: none;
+}
+
+/* ==================================== */
+/* 8. SECTION 6: CONTACT US */
+/* ==================================== */
+
+.contact-section-container
+{
+    width: 85%;
+    margin-left: 10vw;
+    padding-right: 3vw;
+    padding-bottom: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: stretch; /* Ensures columns stretch to max height */
+    min-height: calc(100vh - 100px);
+}
+
+.contact-info-content {
+    max-width: 550px;
+    background-color: #2a2929;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.contact-title
+{
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: white;
+    margin-bottom: 25px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+
+.contact-body-text, .contact-details
+{
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: #cccccc;
+    margin-bottom: 15px;
+}
+
+.contact-details a
+{
+    color: #f2af53;
+    text-decoration: none;
+}
+
+.contact-form-container
+{
+    max-width: 100%;
+    height: 100%; /* Ensures container takes full height of grid cell */
+}
+
+.contact-form
+{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #1c1c1c;
+    padding: 50px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    height: 100%; /* Ensures form stretches to match info box height */
+}
+
+.contact-form input,
+.contact-form textarea
+{
+    padding: 15px;
+    border: 1px solid #444;
+    background-color: #2b2b2b;
+    color: white;
+    font-size: 1rem;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus
+{
+    border-color: #f2af53;
+    outline: none;
+}
+
+.contact-form textarea
+{
+    resize: vertical;
+    flex-grow: 1; /* Allows textarea to consume remaining vertical space */
+}
+
+.btn-submit
+{
+    background-color: #f2af53;
+    color: black;
+    font-weight: 700;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover
+{
+    background-color: #ffd700;
+}
