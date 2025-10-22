@@ -38,6 +38,10 @@ header
     align-items: center;
     position: fixed;
     z-index: 10;
+    width:100%;
+    padding:0 3vw;
+    box-sizing: border-box;
+    justify-content: space-between;
 }
 
 #Logo
@@ -45,31 +49,37 @@ header
     height: 100px;
     margin-top: 20px;
     margin-left: 10vw;
+    flex-shrink:0
 }
 
 #Cart
 {
-    margin-left: 10vw;
-    margin-right: 3vw;
+    margin-right:3vw;
     filter: invert(100%);
+    flex-shrink:0;
 }
 
 #Social
 {
     display: flex;
+    flex-shrink:0;
+    gap:10px;
 }
 
 #NavigationBar
 {
-    margin-left: 14%;
+    margin-left: 5vw;
+    flex-grow:1;
+    min-width: 0;
 }
 
 #NavigationBar ul
 {
     display: flex;
-    gap: 40px;
+    gap: 20px;
     font-size: 20px;
     text-shadow: 0 0 5px black;
+    justify-content:flex-start;
 }
 
 #NavigationBar ul li
