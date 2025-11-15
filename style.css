@@ -871,10 +871,15 @@ header {
     #Feel {
         flex-direction: column;
         gap: 5px;
+        font-size:4rem;
     }
 
     #the {
         color: #f2af53;
+    }
+
+    #Creativity {
+        font-size:4rem;
     }
 
     /* ================= PRODUCTS CONTENT ================= */
