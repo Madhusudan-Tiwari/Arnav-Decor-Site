@@ -1,7 +1,13 @@
-alert("The Website is partially developed")
+//alert("The Website is partially developed")
 
 const sections = document.querySelectorAll('.section');
 const cartIcon = document.getElementById('Cart'); 
+// NEW: Get the Hamburger Icon and Navigation Bar
+const hamburgerIcon = document.getElementById('HamburgerIcon');
+const navigationBar = document.getElementById('NavigationBar');
+
+// NEW: Select all main and sub dropdown toggles (the <a> tags)
+const dropdownToggles = document.querySelectorAll('.dropdown > a, .dropdown-sub > a');
 
 const totalSections = sections.length;
 const animationDuration = 800;
@@ -57,6 +63,47 @@ const scrollPage = (dir) => {
 
 updateSections();
 updateCartIconColor();
+
+// NEW: Event listener for the Hamburger Icon to slide the menu
+if (hamburgerIcon && navigationBar) {
+    hamburgerIcon.addEventListener('click', () => {
+        navigationBar.classList.toggle('mobile-menu-active');
+        // Optional: Add a class to the body to prevent scrolling the background when the menu is open
+        document.body.classList.toggle('no-scroll');
+    });
+}
+
+// NEW: Event listeners for Mobile Dropdown Menu Toggles (to expand/collapse)
+dropdownToggles.forEach(toggle => {
+    toggle.addEventListener('click', function(e) {
+        // Only run this menu logic on mobile screens (below or equal to 1000px)
+        if (window.innerWidth <= 1000) {
+            
+            // Prevent default navigation for dropdown links
+            e.preventDefault(); 
+            
+            // Get the immediate parent list item (either .dropdown or .dropdown-sub)
+            const parentItem = this.closest('.dropdown, .dropdown-sub');
+            
+            // Check if the current item is already expanded
+            const isExpanded = parentItem.classList.contains('nav-link-expanded');
+
+            // Find all other open menus at the same level and close them (accordion effect)
+            parentItem.parentElement.querySelectorAll('.nav-link-expanded').forEach(item => {
+                 // Check if the item has the class and is NOT the current item
+                if (item.classList.contains('dropdown') || item.classList.contains('dropdown-sub')) {
+                    item.classList.remove('nav-link-expanded');
+                }
+            });
+            
+            // If the item was not already expanded, expand it now
+            if (!isExpanded) {
+                 parentItem.classList.add('nav-link-expanded');
+            }
+        }
+    });
+});
+
 
 sections.forEach((sec, index) => {
     const content = sec.querySelector('.content');

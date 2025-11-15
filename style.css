@@ -1,21 +1,27 @@
 /* ==================================== */
 /* 0. UTILITY CLASSES */
 /* ==================================== */
-.cart-black
-{
+.cart-black {
     filter: invert(0%) !important;
 }
 
-.highlight-yellow
-{
+.highlight-yellow {
     color: #ffd700;
+}
+
+/* * NOTE: The global .nav-link-expanded > a::after is used for mobile 
+ * but must be overridden by the mobile media query block to include 
+ * the translateY fix for stability.
+ */
+.nav-link-expanded>a::after {
+    /* This rule is now primarily managed by the mobile media query */
+    transform: rotate(180deg);
 }
 
 /* ==================================== */
 /* 1. RESET AND BASE SETUP */
 /* ==================================== */
-*
-{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -23,102 +29,97 @@
 }
 
 html,
-body
-{
+body {
     height: 100%;
     background: black;
 }
 
 /* ==================================== */
-/* 2. HEADER AND NAVIGATION */
+/* 2. HEADER AND NAVIGATION (Desktop First) */
 /* ==================================== */
-header
-{
+header {
     display: flex;
     align-items: center;
     position: fixed;
     z-index: 10;
-    width:100%;
-    padding:0 3vw;
+    width: 100%;
+    padding: 0 3vw;
     box-sizing: border-box;
     justify-content: space-between;
 }
 
-#Logo
-{
+#Logo {
     height: 100px;
     margin-top: 20px;
-    margin-left: 10vw;
-    flex-shrink:0
+    flex-shrink: 0;
 }
 
-#Cart
-{
-    margin-right:3vw;
-    filter: invert(100%);
-    flex-shrink:0;
-}
-
-#Social
-{
+#MobileHeaderRight {
     display: flex;
-    flex-shrink:0;
-    gap:10px;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0;
 }
 
-#NavigationBar
-{
-    margin-left: 5vw;
-    flex-grow:1;
+#Cart {
+    margin-right: 3vw;
+    filter: invert(100%);
+    flex-shrink: 0;
+}
+
+#Social {
+    display: flex;
+    flex-shrink: 0;
+    gap: 10px;
+}
+
+#NavigationBar {
+    margin-left: 10%;
+    flex-grow: 1;
     min-width: 0;
+    transition: transform 0.5s ease-in-out;
 }
 
-#NavigationBar ul
-{
+#NavigationBar ul {
     display: flex;
     gap: 20px;
     font-size: 20px;
     text-shadow: 0 0 5px black;
-    justify-content:flex-start;
+    justify-content: flex-start;
 }
 
-#NavigationBar ul li
-{
+#NavigationBar ul li {
     color: white;
     cursor: pointer;
     transition: 0.3s;
     position: relative;
 }
 
-#NavigationBar ul li a
-{
+#NavigationBar ul li a {
     color: white;
     text-decoration: none;
     transition: 0.3s;
     font-weight: 600;
     display: inline-block;
     padding: 5px 0;
+    line-height: 1.2;
 }
 
-#NavigationBar ul li:hover > a
-{
+#NavigationBar ul li:hover>a {
     color: #ffd700;
     text-shadow: 0 0 10px #000;
 }
 
-.dropdown
-{
+.dropdown {
     position: relative;
     padding-bottom: 8px;
 }
 
-.dropdown > a
-{
+.dropdown>a {
     pointer-events: auto;
 }
 
-.dropdown-content
-{
+.dropdown-content {
     visibility: hidden;
     opacity: 0;
     position: absolute;
@@ -135,14 +136,12 @@ header
     pointer-events: none;
 }
 
-.dropdown-content li
-{
+.dropdown-content li {
     padding: 0px 20px;
     white-space: nowrap;
 }
 
-.dropdown-content li a
-{
+.dropdown-content li a {
     display: block;
     padding: 8px 20px;
     line-height: 0.9;
@@ -154,29 +153,26 @@ header
     box-sizing: border-box;
 }
 
-.dropdown-content li a:hover
-{
+.dropdown-content li a:hover {
     color: #ffd700;
     background: rgba(255, 215, 0, 0.1);
 }
 
-.dropdown:hover .dropdown-content
-{
+.dropdown:hover .dropdown-content {
     visibility: visible;
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
 }
 
-.dropdown-subcontent
-{
+.dropdown-subcontent {
     visibility: hidden;
     opacity: 0;
     position: absolute;
     top: 0;
     left: 100%;
     background: rgba(0, 0, 0, 0.95);
-    padding: 5px 0;
+    padding: 18px 20px;
     display: flex;
     flex-direction: column;
     transform: translateX(8px);
@@ -184,23 +180,228 @@ header
     pointer-events: none;
     z-index: 10;
     min-width: 200px;
-    padding: 18px 20px;
     border-radius: 6px;
 }
 
-.dropdown-sub:hover .dropdown-subcontent
-{
+.dropdown-sub:hover .dropdown-subcontent {
     visibility: visible;
     opacity: 1;
     transform: translateX(0);
     pointer-events: auto;
 }
 
+/* Hamburger Icon */
+#HamburgerIcon {
+    display: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 100;
+    position: absolute;
+    right: 5vw;
+    top: 35px;
+}
+
+#HamburgerIcon .bar {
+    width: 30px;
+    height: 3px;
+    background-color: white;
+    margin: 6px 0;
+    transition: 0.4s;
+    border-radius: 2px;
+}
+
+#NavigationBar.mobile-menu-active {
+    transform: translateX(0) !important;
+}
+
+/* ==================================== */
+/* 2.1. MEDIA QUERY: Mobile Layout Below 1000px */
+/* ==================================== */
+@media (max-width: 1000px) {
+    header {
+        justify-content: right;
+        display: flex;
+        align-items: center;
+        position: fixed;
+        z-index: 10;
+        width: 100%;
+        height: 18%;
+        padding-right: 16vw;
+    }
+
+    #Logo {
+        position: absolute;
+        left: 13%;
+        bottom: 0%;
+        transform: translateX(-35%);
+    }
+
+    #HamburgerIcon {
+        display: block;
+    }
+
+    #NavigationBar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        /* Slides from right */
+        height: 100%;
+        width: 300px;
+        background: rgba(0, 0, 0, 0.95);
+        /* Ensure background is black/opaque */
+        z-index: 50;
+        padding-top: 120px;
+        transform: translateX(100%);
+        /* Hides off-screen to the right */
+        margin-left: 0;
+        overflow-y: auto;
+        /* Allows menu to scroll if content is long */
+    }
+
+    #NavigationBar ul {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 20px;
+        padding-right: 20px;
+        gap: 0;
+        width: 100%;
+    }
+
+    #NavigationBar ul li {
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #NavigationBar ul li a {
+        display: block;
+        width: 100%;
+        padding: 10px 0;
+        line-height: 1.2;
+    }
+
+    /* --- DROPDOWN TOGGLE STYLES (for accordion effect) --- */
+
+    .dropdown {
+        position: relative;
+        padding-bottom: 0;
+        width: 100%;
+    }
+
+    .dropdown-sub {
+        width: 100%;
+    }
+
+    /* Applies to both main and sub-level links that trigger a dropdown */
+    .dropdown>a,
+    .dropdown-sub>a {
+        position: relative;
+        padding-right: 25px;
+        /* Space for the arrow */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* DROPDOWN ARROW (Main Menu) */
+    .dropdown>a::after {
+        content: '\25BE';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        /* Critical fix for stable rotation */
+        transform: translateY(-50%) rotate(0deg);
+        font-size: 1.2rem;
+        transition: transform 0.3s ease;
+        pointer-events: none;
+    }
+
+    /* DROPDOWN ARROW (Sub Menu) */
+    .dropdown-sub>a::after {
+        content: '\25BE';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        /* Critical fix for stable rotation */
+        transform: translateY(-50%) rotate(0deg);
+        font-size: 1.2rem;
+        transition: transform 0.3s ease;
+        pointer-events: none;
+    }
+
+    /* Rotation for Main Menu */
+    .dropdown.nav-link-expanded>a::after {
+        transform: translateY(-50%) rotate(180deg);
+    }
+
+    /* Rotation for Sub Menu */
+    .dropdown-sub.nav-link-expanded>a::after {
+        transform: translateY(-50%) rotate(180deg);
+    }
+
+    /* --- DROPDOWN CONTENT (Accordion Slide-Down) --- */
+
+    .dropdown-content {
+        position: static;
+        /* Allows it to push content down */
+        visibility: visible;
+        opacity: 1;
+        background: transparent;
+        padding: 0;
+        min-width: unset;
+        transform: translateY(0);
+        pointer-events: auto;
+
+        /* Max-height is the key to the smooth push/pull transition */
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out;
+        flex-direction: column;
+        display: flex;
+        /* Ensure content is laid out correctly when expanded */
+    }
+
+    .dropdown.nav-link-expanded .dropdown-content {
+        max-height: 500px;
+        /* Large enough to show all content */
+    }
+
+    .dropdown-content li {
+        padding: 0;
+        white-space: normal;
+        border: none;
+    }
+
+    .dropdown-subcontent {
+        position: static;
+        visibility: visible;
+        opacity: 1;
+        background: transparent;
+        padding: 0 0 0 20px;
+
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out;
+        flex-direction: column;
+        display: flex;
+        /* Ensure content is laid out correctly when expanded */
+    }
+
+    .dropdown-sub.nav-link-expanded .dropdown-subcontent {
+        max-height: 500px;
+    }
+
+    .dropdown-subcontent li a {
+        padding: 8px 0 8px 10px;
+    }
+
+
+
+}
+
 /* ==================================== */
 /* 3. GENERAL SECTION STYLES */
 /* ==================================== */
-.section
-{
+.section {
     position: fixed;
     top: 0;
     left: 0;
@@ -213,11 +414,10 @@ header
     background-position: center;
     z-index: 1;
     will-change: transform;
-    background-size:cover;
+    background-size: cover;
 }
 
-.section .content
-{
+.section .content {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -228,13 +428,11 @@ header
     padding-top: calc(2rem + 100px);
 }
 
-#section1
-{
+#section1 {
     background-size: cover;
 }
 
-#Tagline
-{
+#Tagline {
     font-size: 6rem;
     color: white;
     text-shadow: 0 0 5px black;
@@ -243,22 +441,19 @@ header
     margin-left: 10vw;
 }
 
-#Feel
-{
+#Feel {
     display: flex;
     gap: 20px;
 }
 
-#the
-{
+#the {
     color: #f2af53;
 }
 
 /* ==================================== */
 /* 4. SECTION 2: PRODUCTS */
 /* ==================================== */
-.products-section
-{
+.products-section {
     display: flex;
     flex-direction: column;
     padding: 0;
@@ -268,8 +463,7 @@ header
     width: 100%;
 }
 
-.section-title
-{
+.section-title {
     font-size: 3.5rem;
     color: white;
     margin-bottom: 3rem;
@@ -277,31 +471,27 @@ header
     font-weight: 600;
 }
 
-.product-categories
-{
+.product-categories {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 3rem 5rem;
 }
 
-.product-category h3
-{
+.product-category h3 {
     font-size: 1.8rem;
     color: white;
     margin-bottom: 0.8rem;
     font-weight: 600;
 }
 
-.product-category p
-{
+.product-category p {
     font-size: 1.1rem;
     line-height: 1.6;
     color: #cccccc;
     margin-bottom: 1rem;
 }
 
-.learn-more
-{
+.learn-more {
     color: #ffd700;
     text-decoration: none;
     font-weight: 600;
@@ -309,16 +499,14 @@ header
     transition: color 0.3s ease;
 }
 
-.learn-more:hover
-{
+.learn-more:hover {
     color: #fff;
 }
 
 /* ==================================== */
 /* 5. SECTION 3: BESPOKE SOLUTIONS */
 /* ==================================== */
-#section3
-{
+#section3 {
     height: 100vh;
     position: relative;
     background-size: cover;
@@ -328,8 +516,7 @@ header
     align-items: center;
 }
 
-#section3::before
-{
+#section3::before {
     content: '';
     position: absolute;
     top: 0;
@@ -340,24 +527,21 @@ header
     z-index: 1;
 }
 
-#section3 .content
-{
+#section3 .content {
     width: 100%;
     padding: 0 50px;
     position: relative;
     z-index: 5;
 }
 
-#section3 .text-container
-{
+#section3 .text-container {
     text-align: left;
     margin-left: 10vw;
     max-width: 500px;
     margin-right: 3vw;
 }
 
-#section3 .sub-heading
-{
+#section3 .sub-heading {
     font-size: 1.2rem;
     font-weight: 500;
     color: #fff;
@@ -366,8 +550,7 @@ header
     text-shadow: 0 0 4px #2a2929;
 }
 
-#section3 .main-heading
-{
+#section3 .main-heading {
     font-size: 5rem;
     font-weight: 700;
     color: #fff;
@@ -375,8 +558,7 @@ header
     text-shadow: 0 0 8px #2a2929;
 }
 
-#section3 .body-text
-{
+#section3 .body-text {
     font-size: 1.1rem;
     font-weight: 400;
     color: black;
@@ -385,8 +567,7 @@ header
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
 }
 
-#section3 .btn-info
-{
+#section3 .btn-info {
     background-color: #1a427f;
     color: #fff;
     padding: 12px 30px;
@@ -399,13 +580,11 @@ header
     transition: background-color 0.3s ease;
 }
 
-#section3 .btn-info:hover
-{
+#section3 .btn-info:hover {
     background-color: #2b579c;
 }
 
-#Solutions
-{
+#Solutions {
     min-height: 115vh;
     align-content: center;
 }
@@ -414,16 +593,14 @@ header
 /* 6. SECTION 4: TESTIMONIALS */
 /* ==================================== */
 
-.testimonial-section-container
-{
+.testimonial-section-container {
     width: 85%;
     margin-left: 10vw;
     padding-right: 3vw;
     padding-bottom: 2rem;
 }
 
-.section-title-testimonial
-{
+.section-title-testimonial {
     font-size: 3.5rem;
     font-weight: 700;
     color: white;
@@ -432,16 +609,14 @@ header
     font-family: sans-serif;
 }
 
-.testimonials-grid
-{
+.testimonials-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 30px;
     margin-top: 50px;
 }
 
-.testimonial-card
-{
+.testimonial-card {
     background-color: #1c1c1c;
     padding: 20px;
     position: relative;
@@ -450,16 +625,14 @@ header
     border-bottom: 5px solid #f2af53;
 }
 
-.card-header
-{
+.card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 15px;
 }
 
-.avatar-placeholder
-{
+.avatar-placeholder {
     width: 80px;
     height: 80px;
     background-color: #4a4a4a;
@@ -473,8 +646,7 @@ header
     left: 20px;
 }
 
-.quote-icon
-{
+.quote-icon {
     font-size: 4rem;
     color: #f2af53;
     font-weight: 900;
@@ -485,29 +657,25 @@ header
     opacity: 0.8;
 }
 
-.card-body
-{
+.card-body {
     padding-top: 50px;
 }
 
-.client-name
-{
+.client-name {
     font-size: 1.8rem;
     font-weight: 700;
     color: white;
     margin-bottom: 5px;
 }
 
-.client-title
-{
+.client-title {
     font-size: 1.1rem;
     font-weight: 400;
     color: #f2af53;
     margin-bottom: 20px;
 }
 
-.testimonial-text-placeholder
-{
+.testimonial-text-placeholder {
     height: 150px;
     background-color: #2b2b2b;
     border-radius: 4px;
@@ -517,26 +685,23 @@ header
 /* 7. SECTION 5: LEGACY / VIDEO */
 /* ==================================== */
 
-.legacy-section-container
-{
+.legacy-section-container {
     width: 85%;
     margin-left: 10vw;
     padding-right: 3vw;
     padding-bottom: 2rem;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr; /* Desktop: side-by-side */
     gap: 50px;
     align-items: center;
     min-height: calc(100vh - 100px);
 }
 
-.legacy-content
-{
+.legacy-content {
     max-width: 550px;
 }
 
-.legacy-title
-{
+.legacy-title {
     font-size: 3.5rem;
     font-weight: 700;
     line-height: 1.2;
@@ -546,16 +711,14 @@ header
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
 }
 
-.legacy-body-text
-{
+.legacy-body-text {
     font-size: 1.25rem;
     line-height: 1.6;
     color: #cccccc;
     text-align: left;
 }
 
-.legacy-video-placeholder
-{
+.legacy-video-placeholder {
     position: relative;
     width: 100%;
     padding-top: 56.25%;
@@ -564,8 +727,7 @@ header
     overflow: hidden;
 }
 
-.video-overlay
-{
+.video-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -578,8 +740,7 @@ header
     box-sizing: border-box;
 }
 
-.video-duration
-{
+.video-duration {
     color: white;
     font-size: 0.9rem;
     margin: 0 0 5px 5px;
@@ -590,8 +751,7 @@ header
 /* 8. SECTION 6: CONTACT US */
 /* ==================================== */
 
-.contact-section-container
-{
+.contact-section-container {
     width: 85%;
     margin-left: 10vw;
     padding-right: 3vw;
@@ -604,7 +764,7 @@ header
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 50px;
-        align-items: center; 
+    align-items: center;
     min-height: calc(100vh - 100px);
 }
 
@@ -615,8 +775,7 @@ header
     border-radius: 12px;
 }
 
-.contact-title
-{
+.contact-title {
     font-size: 3.5rem;
     font-weight: 700;
     line-height: 1.2;
@@ -625,28 +784,25 @@ header
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
 }
 
-.contact-body-text, .contact-details
-{
+.contact-body-text,
+.contact-details {
     font-size: 1.25rem;
     line-height: 1.6;
     color: #cccccc;
     margin-bottom: 15px;
 }
 
-.contact-details a
-{
+.contact-details a {
     color: #f2af53;
     text-decoration: none;
 }
 
-.contact-form-container
-{
+.contact-form-container {
     max-width: 100%;
     height: 100%;
 }
 
-.contact-form
-{
+.contact-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -658,8 +814,7 @@ header
 }
 
 .contact-form input,
-.contact-form textarea
-{
+.contact-form textarea {
     padding: 15px;
     border: 1px solid #444;
     background-color: #2b2b2b;
@@ -670,20 +825,17 @@ header
 }
 
 .contact-form input:focus,
-.contact-form textarea:focus
-{
+.contact-form textarea:focus {
     border-color: #f2af53;
     outline: none;
 }
 
-.contact-form textarea
-{
+.contact-form textarea {
     resize: vertical;
     flex-grow: 1;
 }
 
-.btn-submit
-{
+.btn-submit {
     background-color: #f2af53;
     color: black;
     font-weight: 700;
@@ -695,7 +847,193 @@ header
     transition: background-color 0.3s;
 }
 
-.btn-submit:hover
-{
+.btn-submit:hover {
     background-color: #ffd700;
+}
+
+@media (max-width: 1000px) {
+
+    /* ================= SECTION CONTENT ================= */
+
+    .section .content {
+        padding: 1rem 1.5rem;
+        margin-top: 135px;
+        font-size: 1.2rem;
+        /* slightly smaller for mobile */
+    }
+
+    #Tagline {
+        font-size: 5rem;
+        text-align: left;
+        margin-left: 0;
+    }
+
+    #Feel {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    #the {
+        color: #f2af53;
+    }
+
+    /* ================= PRODUCTS CONTENT ================= */
+
+    .products-section {
+        padding: 0 10px;
+        margin-top: 115px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .product-category h3 {
+        font-size: 1.4rem;
+    }
+
+    .product-category p {
+        font-size: 1rem;
+    }
+
+    .learn-more {
+        font-size: 0.9rem;
+    }
+
+    /* ================= BESPOKE SOLUTIONS ================= */
+
+    #section3 .text-container {
+        text-align: center;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    #section3 .sub-heading {
+        font-size: 3rem;
+    }
+
+    #section3 .main-heading {
+        font-size: 2.5rem;
+    }
+
+    #section3 .body-text {
+        font-size: 1rem;
+    }
+
+    #section3 .btn-info {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+    }
+
+
+    /* ================= TESTIMONIALS CONTENT ================= */
+
+    #section4 .content {
+        padding:0;
+    }
+
+    .section-title-testimonial {
+        font-size:10vw;
+    }
+
+    .testimonial-card {
+        width:85vw;
+    }
+
+
+    .client-name {
+        font-size: 1.4rem;
+    }
+
+    .client-title {
+        font-size: 1rem;
+    }
+
+    /* ================= LEGACY / VIDEO CONTENT ================= */
+
+    .legacy-section-container {
+        /* Change grid to flexbox to easily control stacking */
+        display: flex; 
+        flex-direction: column; /* Stack children vertically */
+        /* Adjust padding for mobile layout */
+        width: 100%;
+        margin-left: 0;
+        padding: 0 1.5rem 2rem 1.5rem; /* Add horizontal padding back to the container */
+        gap: 30px; /* Reduced gap for mobile */
+        min-height:120vh;
+    }
+
+    .legacy-content {
+        max-width: 100%; /* Allow content to use full container width */
+        padding-top: 115px; /* Add space below header */
+    }
+
+    .legacy-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .legacy-body-text {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    /* ================= CONTACT CONTENT ================= */
+
+    #section6 .content {
+        padding: 0;
+        padding-top: calc(0rem + 100px); /* Adjusting top padding to just header clearance */
+    }
+
+    .contact-section-container {
+        display: flex;
+        flex-direction: column;
+        /* Set horizontal padding here to define the content edges */
+        padding: 0 1.5rem 2rem 1.5rem; /* Top 0, Left/Right 1.5rem, Bottom 2rem */
+        width: 100%; /* Ensure container fills viewport width */
+        margin-left: 0;
+    }
+
+    /* Ensure both info block and form container are full width */
+    .contact-info-content,
+    .contact-form-container {
+        max-width: 100%;
+        width: 100%;
+        margin-left: 0; /* Remove potential margin overrides */
+    }
+    
+    .contact-info-content {
+        padding: 20px; /* Re-apply internal padding to the info block */
+    }
+
+    .contact-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .contact-body-text,
+    .contact-details {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .contact-form {
+        padding: 25px;
+        width: 100%; /* Already set to 100% */
+        box-sizing: border-box; /* Ensure padding doesn't push it out of width */
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        font-size: 0.95rem;
+    }
+
+    .btn-submit {
+        font-size: 1rem;
+        padding: 12px 20px;
+    }
+
 }
