@@ -1,0 +1,401 @@
+/* ==================================== */
+/* 0. UTILITY CLASSES */
+/* ==================================== */
+.cart-black {
+    filter: invert(100%) !important;
+}
+
+.highlight-yellow {
+    color: #ffd700;
+}
+
+/* * NOTE: The global .nav-link-expanded > a::after is used for mobile 
+ * but must be overridden by the mobile media query block to include 
+ * the translateY fix for stability.
+ */
+.nav-link-expanded>a::after {
+    /* This rule is now primarily managed by the mobile media query */
+    transform: rotate(180deg);
+}
+
+/* ==================================== */
+/* 1. RESET AND BASE SETUP */
+/* ==================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+}
+
+html, body {
+    height: 100%;
+    overflow: auto;
+    background: black;
+}
+
+/* ==================================== */
+/* 2. HEADER AND NAVIGATION (Desktop First) */
+/* ==================================== */
+header {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    padding: 0 3vw;
+    box-sizing: border-box;
+    justify-content: space-between;
+    background-color: rgb(12, 12, 12);
+}
+
+#Logo {
+    height: 100px;
+    margin-top: 20px;
+    flex-shrink: 0;
+}
+
+#MobileHeaderRight {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+#Cart {
+    margin-right: 3vw;
+    filter: invert(100%);
+    flex-shrink: 0;
+}
+
+#Social {
+    display: flex;
+    flex-shrink: 0;
+    gap: 10px;
+}
+
+#NavigationBar {
+    margin-left: 10%;
+    flex-grow: 1;
+    min-width: 0;
+    transition: transform 0.5s ease-in-out;
+}
+
+#NavigationBar ul {
+    display: flex;
+    gap: 20px;
+    font-size: 20px;
+    text-shadow: 0 0 5px black;
+    justify-content: flex-start;
+}
+
+#NavigationBar ul li {
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+}
+
+#NavigationBar ul li a {
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+    font-weight: 600;
+    display: inline-block;
+    padding: 5px 0;
+    line-height: 1.2;
+}
+
+#NavigationBar ul li:hover>a {
+    color: #ffd700;
+    text-shadow: 0 0 10px #000;
+}
+
+.dropdown {
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.dropdown>a {
+    pointer-events: auto;
+}
+
+.dropdown-content {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    background: rgba(0, 0, 0, 0.95);
+    border-radius: 6px;
+    padding: 20px 0;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(8px);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    pointer-events: none;
+}
+
+.dropdown-content li {
+    padding: 0px 20px;
+    white-space: nowrap;
+}
+
+.dropdown-content li a {
+    display: block;
+    padding: 8px 20px;
+    line-height: 0.9;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+    white-space: normal;
+    word-break: break-word;
+    box-sizing: border-box;
+}
+
+.dropdown-content li a:hover {
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.dropdown:hover .dropdown-content {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.dropdown-subcontent {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+    z-index: 10;
+    min-width: 200px;
+    border-radius: 6px;
+}
+
+.dropdown-sub:hover .dropdown-subcontent {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+/* Hamburger Icon */
+#HamburgerIcon {
+    display: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 100;
+    position: absolute;
+    right: 5vw;
+    top: 35px;
+}
+
+#HamburgerIcon .bar {
+    width: 30px;
+    height: 3px;
+    background-color: white;
+    margin: 6px 0;
+    transition: 0.4s;
+    border-radius: 2px;
+}
+
+#NavigationBar.mobile-menu-active {
+    transform: translateX(0) !important;
+}
+
+/* ==================================== */
+/* 2.1. MEDIA QUERY: Mobile Layout Below 1000px */
+/* ==================================== */
+@media (max-width: 1000px) {
+    header {
+        justify-content: right;
+        display: flex;
+        align-items: center;
+        position: fixed;
+        z-index: 10;
+        width: 100%;
+        height: 18%;
+        padding-right: 16vw;
+    }
+
+    #Logo {
+        position: absolute;
+        left: 13%;
+        bottom: 0%;
+        transform: translateX(-35%);
+    }
+
+    #HamburgerIcon {
+        display: block;
+    }
+
+    #NavigationBar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        /* Slides from right */
+        height: 100%;
+        width: 300px;
+        background: rgba(0, 0, 0, 0.95);
+        /* Ensure background is black/opaque */
+        z-index: 50;
+        padding-top: 120px;
+        transform: translateX(100%);
+        /* Hides off-screen to the right */
+        margin-left: 0;
+        overflow-y: auto;
+        /* Allows menu to scroll if content is long */
+    }
+
+    #NavigationBar ul {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 20px;
+        padding-right: 20px;
+        gap: 0;
+        width: 100%;
+    }
+
+    #NavigationBar ul li {
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #NavigationBar ul li a {
+        display: block;
+        width: 100%;
+        padding: 10px 0;
+        line-height: 1.2;
+    }
+
+    /* --- DROPDOWN TOGGLE STYLES (for accordion effect) --- */
+
+    .dropdown {
+        position: relative;
+        padding-bottom: 0;
+        width: 100%;
+    }
+
+    .dropdown-sub {
+        width: 100%;
+    }
+
+    /* Applies to both main and sub-level links that trigger a dropdown */
+    .dropdown>a,
+    .dropdown-sub>a {
+        position: relative;
+        padding-right: 25px;
+        /* Space for the arrow */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* DROPDOWN ARROW (Main Menu) */
+    .dropdown>a::after {
+        content: '\25BE';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        /* Critical fix for stable rotation */
+        transform: translateY(-50%) rotate(0deg);
+        font-size: 1.2rem;
+        transition: transform 0.3s ease;
+        pointer-events: none;
+    }
+
+    /* DROPDOWN ARROW (Sub Menu) */
+    .dropdown-sub>a::after {
+        content: '\25BE';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        /* Critical fix for stable rotation */
+        transform: translateY(-50%) rotate(0deg);
+        font-size: 1.2rem;
+        transition: transform 0.3s ease;
+        pointer-events: none;
+    }
+
+    /* Rotation for Main Menu */
+    .dropdown.nav-link-expanded>a::after {
+        transform: translateY(-50%) rotate(180deg);
+    }
+
+    /* Rotation for Sub Menu */
+    .dropdown-sub.nav-link-expanded>a::after {
+        transform: translateY(-50%) rotate(180deg);
+    }
+
+    /* --- DROPDOWN CONTENT (Accordion Slide-Down) --- */
+
+    .dropdown-content {
+        position: static;
+        /* Allows it to push content down */
+        visibility: visible;
+        opacity: 1;
+        background: transparent;
+        padding: 0;
+        min-width: unset;
+        transform: translateY(0);
+        pointer-events: auto;
+
+        /* Max-height is the key to the smooth push/pull transition */
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out;
+        flex-direction: column;
+        display: flex;
+        /* Ensure content is laid out correctly when expanded */
+    }
+
+    .dropdown.nav-link-expanded .dropdown-content {
+        max-height: 500px;
+        /* Large enough to show all content */
+    }
+
+    .dropdown-content li {
+        padding: 0;
+        white-space: normal;
+        border: none;
+    }
+
+    .dropdown-subcontent {
+        position: static;
+        visibility: visible;
+        opacity: 1;
+        background: transparent;
+        padding: 0 0 0 20px;
+
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out;
+        flex-direction: column;
+        display: flex;
+        /* Ensure content is laid out correctly when expanded */
+    }
+
+    .dropdown-sub.nav-link-expanded .dropdown-subcontent {
+        max-height: 500px;
+    }
+
+    .dropdown-subcontent li a {
+        padding: 8px 0 8px 10px;
+    }
+
+
+
+}
+
